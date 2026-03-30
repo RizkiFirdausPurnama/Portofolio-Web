@@ -3,7 +3,7 @@ import { useReveal } from '../hooks/useReveal'
 const items = [
   { icon: 'fa-solid fa-briefcase',   title: 'Workaholic',    desc: "I'm a kind of person who can't just stand around and doing nothing. I have a tendency to do something productive." },
   { icon: 'fa-solid fa-comments',    title: 'Communicative', desc: 'I have a broad understanding of verbal vocabulary. Therefore, I can convey a message well to the receiver.' },
-  { icon: 'fa-solid fa-thumbs-up',   title: 'Cooperative',   desc: 'Behind the successful project, there\'s a great team. I can build a good cooperation and remain consistent with the goal.' },
+  { icon: 'fa-solid fa-thumbs-up',   title: 'Cooperative',   desc: "Behind the successful project, there's a great team. I can build a good cooperation and remain consistent with the goal." },
   { icon: 'fa-solid fa-certificate', title: 'Perfectionist', desc: 'I have a strong intuition. I have remained consistent with high quality standards to present a most worthy result.' },
 ]
 
@@ -30,7 +30,7 @@ function HireCard({ item }) {
 export default function WhyHireMe() {
   const titleRef = useReveal()
   return (
-    <section style={{ padding: '80px 0', background: '#181818' }}>
+    <section style={{ padding: '80px 0' }}>
       <div className="container">
         <div ref={titleRef} className="reveal text-center mb-5">
           <h2 style={{ color: '#f0f0f0' }}>Why Hire Me</h2>

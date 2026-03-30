@@ -20,16 +20,17 @@ const skills = [
 function SkillIcon({ skill }) {
   const [hovered, setHovered] = useState(false)
   return (
-    <div
-      title={skill.label}
+    <div title={skill.label}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered ? '#fff' : '#2a2a2a',
+        background: hovered ? '#fff' : 'rgba(255,255,255,0.06)',
+        backdropFilter: 'blur(8px)',
+        border: `1px solid ${hovered ? '#fff' : 'rgba(176,110,243,0.2)'}`,
         width: '100px', height: '100px',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         borderRadius: '20px', cursor: 'default',
-        boxShadow: hovered ? '0 0 15px rgba(255,255,255,0.2)' : '5px 5px 10px #0a0a0a, -5px -5px 10px #2a2a2a',
+        boxShadow: hovered ? '0 0 20px rgba(255,255,255,0.15)' : '0 4px 15px rgba(0,0,0,0.2)',
         transition: 'all 0.3s ease',
         flexDirection: 'row',
       }}
@@ -48,12 +49,12 @@ export default function SkillsSection() {
   const titleRef = useReveal()
   const gridRef  = useReveal()
   return (
-    <section id="skills" style={{ padding: '80px 0', background: '#101010' }}>
+    <section id="skills" style={{ padding: '80px 0' }}>
       <div className="container">
         <div ref={titleRef} className="reveal text-center mb-5">
           <h2 style={{ color: '#f0f0f0' }}>Tools and <span style={{ color: '#9b59b6' }}>Skills</span></h2>
         </div>
-        <div ref={gridRef} className="reveal" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center', marginTop: '1rem' }}>
+        <div ref={gridRef} className="reveal" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
           {skills.map(s => <SkillIcon key={s.label} skill={s} />)}
         </div>
       </div>

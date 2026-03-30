@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import DarkVeil from './DarkVeil'
 import ReflectiveCard from './ReflectiveCard'
 
 function useTyping(text, speed = 120, delay = 300) {
@@ -46,35 +45,12 @@ export default function HeroSection() {
 
   return (
     <section id="home" style={{
-      position: 'relative',
       minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
-      overflow: 'hidden',
       paddingTop: '80px',
     }}>
-
-      {/* Dark Veil background */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-        <DarkVeil
-          hueShift={270}
-          noiseIntensity={0.03}
-          scanlineIntensity={0.08}
-          scanlineFrequency={600}
-          speed={0.4}
-          warpAmount={1.5}
-          resolutionScale={1}
-        />
-      </div>
-
-      {/* Overlay */}
-      <div style={{
-        position: 'absolute', inset: 0, zIndex: 1,
-        background: 'linear-gradient(120deg, rgba(5,5,10,0.65) 45%, rgba(5,5,10,0.10) 100%)',
-      }} />
-
-      {/* Konten */}
-      <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+      <div className="container">
         <div className="row align-items-center">
 
           {/* Kiri: Teks */}
@@ -122,7 +98,6 @@ export default function HeroSection() {
               Download CV
             </a>
 
-            {/* Social */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginTop: '2rem' }}>
               <span style={{ color: '#a0a0a0', fontWeight: 500, fontSize: '0.95rem' }}>Find Me On</span>
               {[
@@ -161,7 +136,6 @@ export default function HeroSection() {
 
         </div>
       </div>
-
       <style>{`@keyframes blink { 50% { opacity: 0; } }`}</style>
     </section>
   )

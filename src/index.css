@@ -1,7 +1,7 @@
 :root {
-  --bg-dark: #101010;
-  --bg-dark-secondary: #181818;
-  --bg-dark-tertiary: #2a2a2a;
+  --bg-dark: transparent;
+  --bg-dark-secondary: transparent;
+  --bg-dark-tertiary: rgba(255,255,255,0.05);
   --text-light: #f0f0f0;
   --text-secondary: #a0a0a0;
   --color-purple: #9b59b6;
@@ -10,12 +10,11 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: var(--bg-dark);
+  background-color: #080510;
   color: var(--text-light);
   overflow-x: hidden;
 }
@@ -28,7 +27,6 @@ p  { color: var(--text-secondary); line-height: 1.7; }
 
 @keyframes blink { 50% { opacity: 0; } }
 
-/* ── reveal animation ── */
 .reveal {
   opacity: 0;
   transform: translateY(50px);

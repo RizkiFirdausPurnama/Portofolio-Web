@@ -1,7 +1,7 @@
 .reflective-card-container {
   position: relative;
-  width: 300px;
-  height: 420px;
+  width: 340px;
+  height: 460px;
   border-radius: 20px;
   overflow: hidden;
   background: #0d0d0d;
@@ -35,12 +35,11 @@
   filter:
     saturate(var(--saturation, 0.15))
     contrast(130%)
-    brightness(60%)
+    brightness(55%)
     blur(var(--blur-strength, 12px))
     url(#metallic-displacement);
   z-index: 0;
-  opacity: 0.85;
-  transition: filter 0.3s ease;
+  opacity: 0.8;
 }
 
 .reflective-noise {
@@ -139,36 +138,30 @@
   50% { opacity: 0.4; transform: scale(0.75); }
 }
 
-/* ── Foto profil ── */
+/* ── Foto profil — FULL, tanpa lingkaran ── */
 .porto-card-photo {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   flex: 1;
-  padding: 10px 0 6px;
-}
-.porto-photo-ring {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  padding: 3px;
-  background: linear-gradient(135deg, #b06ef3, #9b59b6, #6c3483);
-  box-shadow:
-    0 0 20px rgba(155, 89, 182, 0.7),
-    0 0 40px rgba(155, 89, 182, 0.3);
-}
-.porto-photo-inner {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+  margin: 14px -22px;
   overflow: hidden;
-  background: #111;
+  position: relative;
 }
-.porto-photo-inner img {
+.porto-card-photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: top center;
+  display: block;
+}
+/* gradient fade bawah supaya menyatu dengan footer */
+.porto-card-photo::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(5, 5, 15, 0.85));
+  pointer-events: none;
 }
 
 /* ── Nama & role ── */

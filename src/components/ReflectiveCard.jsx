@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import './ReflectiveCard.css';
 
 const ReflectiveCard = ({
@@ -17,9 +17,7 @@ const ReflectiveCard = ({
 }) => {
   const cardRef = useRef(null);
   const sheenRef = useRef(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
-  // 3D tilt on mouse move
   useEffect(() => {
     const card = cardRef.current;
     if (!card) return;
@@ -30,20 +28,21 @@ const ReflectiveCard = ({
       const cy = rect.top + rect.height / 2;
       const dx = (e.clientX - cx) / (rect.width / 2);
       const dy = (e.clientY - cy) / (rect.height / 2);
-      setTilt({ x: dy * -12, y: dx * 12 });
+      card.style.transform = `perspective(800px) rotateX(${dy * -10}deg) rotateY(${dx * 10}deg)`;
+      card.style.transition = 'transform 0.1s ease';
 
-      // Move sheen highlight
       if (sheenRef.current) {
         const px = ((e.clientX - rect.left) / rect.width) * 100;
         const py = ((e.clientY - rect.top) / rect.height) * 100;
-        sheenRef.current.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(176,110,243,0.45) 0%, rgba(255,255,255,0.08) 40%, transparent 70%)`;
+        sheenRef.current.style.background = `radial-gradient(circle at ${px}% ${py}%, rgba(176,110,243,0.5) 0%, rgba(255,255,255,0.06) 40%, transparent 70%)`;
       }
     };
 
     const handleLeave = () => {
-      setTilt({ x: 0, y: 0 });
+      card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
+      card.style.transition = 'transform 0.6s ease';
       if (sheenRef.current) {
-        sheenRef.current.style.background = `linear-gradient(135deg, rgba(176,110,243,0.25) 0%, rgba(255,255,255,0.05) 50%, rgba(176,110,243,0.15) 100%)`;
+        sheenRef.current.style.background = 'linear-gradient(135deg, rgba(176,110,243,0.25) 0%, rgba(255,255,255,0.05) 50%, rgba(176,110,243,0.15) 100%)';
       }
     };
 
@@ -65,17 +64,11 @@ const ReflectiveCard = ({
     '--overlay-color': overlayColor,
     '--text-color': color,
     '--saturation': saturation,
-    transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-    transition: tilt.x === 0 ? 'transform 0.6s ease' : 'transform 0.1s ease',
   };
 
   return (
-    <div
-      ref={cardRef}
-      className={`reflective-card-container ${className}`}
-      style={{ ...style, ...cssVariables }}
-    >
-      {/* SVG filter metalik */}
+    <div ref={cardRef} className={`reflective-card-container ${className}`} style={{ ...style, ...cssVariables }}>
+
       <svg className="reflective-svg-filters" aria-hidden="true">
         <defs>
           <filter id="metallic-displacement" x="-20%" y="-20%" width="140%" height="140%">
@@ -103,23 +96,16 @@ const ReflectiveCard = ({
         </defs>
       </svg>
 
-      {/* ── FOTO sebagai background refleksi (ganti webcam) ── */}
-      <img
-        src="/Foto/Kiki.png"
-        alt=""
-        aria-hidden="true"
-        className="reflective-bg-photo"
-      />
+      {/* Background refleksi dari foto */}
+      <img src="/Foto/Kiki.png" alt="" aria-hidden="true" className="reflective-bg-photo" />
 
-      {/* Layer efek */}
       <div className="reflective-noise" />
       <div ref={sheenRef} className="reflective-sheen" />
       <div className="reflective-border" />
 
-      {/* Konten porto */}
       <div className="reflective-content">
 
-        {/* Top badge */}
+        {/* Top */}
         <div className="porto-card-top">
           <div className="porto-badge">
             <span className="porto-badge-dot" />
@@ -130,13 +116,9 @@ const ReflectiveCard = ({
           </span>
         </div>
 
-        {/* Foto profil */}
+        {/* Foto full tanpa lingkaran */}
         <div className="porto-card-photo">
-          <div className="porto-photo-ring">
-            <div className="porto-photo-inner">
-              <img src="/Foto/Kiki.png" alt="Rizki Firdaus Purnama" />
-            </div>
-          </div>
+          <img src="/Foto/Kiki.png" alt="Rizki Firdaus Purnama" />
         </div>
 
         {/* Nama & role */}
@@ -152,7 +134,7 @@ const ReflectiveCard = ({
             <span className="porto-footer-value">@RizkiFirdausPurnama</span>
           </div>
           <div className="porto-footer-icon">
-            <i className="fa-brands fa-github" style={{ fontSize: '28px' }} />
+            <i className="fa-brands fa-github" style={{ fontSize: '26px' }} />
           </div>
         </div>
 

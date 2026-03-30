@@ -4,7 +4,7 @@ export default function ContactSection() {
   const ref = useReveal()
   return (
     <>
-      <section id="contact" style={{ padding: '80px 0', background: '#181818' }}>
+      <section id="contact" style={{ padding: '80px 0' }}>
         <div className="container">
           <div ref={ref} className="reveal">
             <div className="col-lg-6 col-md-8">
@@ -26,8 +26,7 @@ export default function ContactSection() {
           </div>
         </div>
       </section>
-
-      <footer style={{ background: '#101010', borderTop: '1px solid #222', padding: '1.5rem 0', textAlign: 'center' }}>
+      <footer style={{ borderTop: '1px solid rgba(176,110,243,0.15)', padding: '1.5rem 0', textAlign: 'center' }}>
         <p style={{ margin: 0, color: '#a0a0a0' }}>© 2025 MyPorto. All Rights Reserved.</p>
       </footer>
     </>
