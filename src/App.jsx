@@ -13,7 +13,7 @@ export default function App() {
       {/* DarkVeil fixed — background seluruh halaman */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
         <DarkVeil
-          hueShift={270}
+          hueShift={302}
           noiseIntensity={0.02}
           scanlineIntensity={0.04}
           scanlineFrequency={400}

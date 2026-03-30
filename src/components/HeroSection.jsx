@@ -39,17 +39,23 @@ function useRoles(roles, typeDelay = 150, eraseDelay = 30, pauseDelay = 1400) {
   return text
 }
 
+// ── Download PDF helper ──
+function downloadCV() {
+  const link = document.createElement('a')
+  link.href = '/Berkas/Cv-RizkiFirdausPurnama.pdf'
+  link.download = 'CV-RizkiFirdausPurnama.pdf'
+  link.type = 'application/pdf'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
 export default function HeroSection() {
   const name = useTyping('Rizki Firdaus Purnama', 110, 400)
   const role = useRoles(['Web Development', 'Full Stack Development', 'Front-End Development', 'Data Analytics'])
 
   return (
-    <section id="home" style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      paddingTop: '80px',
-    }}>
+    <section id="home" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '80px' }}>
       <div className="container">
         <div className="row align-items-center">
 
@@ -79,25 +85,28 @@ export default function HeroSection() {
             </h2>
 
             <p className="mt-4" style={{ maxWidth: '500px', color: '#b0b0b0' }}>
-              A Computer Science student at Binus University passionate about building impactful solutions.
-              Developing parallel skills in Front-End Development and Data Analytics, using UI/UX as a bridge
-              to translate complex data into visually compelling interfaces.
+              Computer Science student at Binus University focusing on Full-Stack and Web Development. Passionate about building robust, scalable, and functional web applications. Experienced in handling end-to-end development lifecycles, combining strong technical logic across both frontend interfaces and backend architectures to deliver efficient software solutions.
             </p>
 
-            <a href="/Berkas/Cv-RizkiFirdausPurnama.pdf" download style={{
-              display: 'inline-block', marginTop: '1.75rem',
-              background: '#9b59b6', color: '#fff',
-              padding: '12px 32px', borderRadius: '8px',
-              textDecoration: 'none', fontWeight: 600,
-              transition: 'background 0.3s, box-shadow 0.3s',
-              boxShadow: '0 0 18px rgba(155,89,182,0.5)',
-            }}
+            {/* ── Tombol Download CV — fix PDF ── */}
+            <button
+              onClick={downloadCV}
+              style={{
+                display: 'inline-block', marginTop: '1.75rem',
+                background: '#9b59b6', color: '#fff',
+                padding: '12px 32px', borderRadius: '8px',
+                border: 'none', cursor: 'pointer', fontWeight: 600,
+                fontSize: '1rem', fontFamily: 'inherit',
+                transition: 'background 0.3s, box-shadow 0.3s',
+                boxShadow: '0 0 18px rgba(155,89,182,0.5)',
+              }}
               onMouseEnter={e => { e.target.style.background = '#8e44ad'; e.target.style.boxShadow = '0 0 28px rgba(155,89,182,0.8)' }}
               onMouseLeave={e => { e.target.style.background = '#9b59b6'; e.target.style.boxShadow = '0 0 18px rgba(155,89,182,0.5)' }}
             >
               Download CV
-            </a>
+            </button>
 
+            {/* Social */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginTop: '2rem' }}>
               <span style={{ color: '#a0a0a0', fontWeight: 500, fontSize: '0.95rem' }}>Find Me On</span>
               {[

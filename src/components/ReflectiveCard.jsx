@@ -112,7 +112,7 @@ const ReflectiveCard = ({
             BINUS UNIVERSITY
           </div>
           <span style={{ fontSize: '10px', letterSpacing: '0.1em', opacity: 0.5, color: '#d4a8ff' }}>
-            CS · 2025
+            CS · B27
           </span>
         </div>
 
@@ -124,7 +124,7 @@ const ReflectiveCard = ({
         {/* Nama & role */}
         <div className="porto-card-info">
           <h2 className="porto-name">Rizki Firdaus Purnama</h2>
-          <p className="porto-role">Front-End &amp; Data Analytics</p>
+          <p className="porto-role">Full Stack Development &amp; Web Development</p>
         </div>
 
         {/* Footer */}
