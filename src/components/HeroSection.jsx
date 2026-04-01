@@ -152,12 +152,13 @@ export default function HeroSection() {
         paddingTop: '100px', 
         paddingBottom: '40px' 
       }}>
-        {/* Container dikembalikan ke lebar aslinya yang lebih luas agar ada ruang untuk menggeser */}
+        {/* Container lebar asli */}
         <div className="container" style={{ margin: '0 auto', maxWidth: '1140px', width: '100%' }}>
-          {/* Baris (Row) diberikan paddingLeft: '8%' untuk secara langsung menggeser seluruh konten di dalamnya ke kanan */}
-          <div className="row align-items-center justify-content-between" style={{ paddingLeft: '8%' }}>
+          
+          {/* PERUBAHAN TATA LETAK: Menggunakan justify-content-between untuk menempatkan elemen di tepi luar kontainer */}
+          <div className="row align-items-center justify-content-between">
 
-            {/* Kiri: Teks Asli (Nama, Peran, Deskripsi, Tombol CV, Social) */}
+            {/* Kiri (Garis Merah): Kolom kembali ke lebar col-lg-6, konten berbaris ke kiri secara default */}
             <div className="col-lg-6 col-md-12">
               <span style={{ fontSize: '1.1rem', color: '#a0a0a0', letterSpacing: '0.05em' }}>Hello Guys</span>
 
@@ -176,10 +177,10 @@ export default function HeroSection() {
               <h2 style={{ fontSize: 'clamp(1.1rem, 3vw, 1.5rem)', fontWeight: 400, color: '#d4a8ff', minHeight: '2rem', marginBottom: '1rem' }}>
                 {role}
                 <span style={{
-                  display: 'inline-block', width: '2px', height: '0.85em',
-                  background: '#d4a8ff', marginLeft: '3px', verticalAlign: 'middle',
-                  animation: 'blink 0.7s step-end infinite',
-                }} />
+                    display: 'inline-block', width: '2px', height: '0.85em',
+                    background: '#d4a8ff', marginLeft: '3px', verticalAlign: 'middle',
+                    animation: 'blink 0.7s step-end infinite',
+                  }} />
               </h2>
 
               <p className="mt-4" style={{ maxWidth: '500px', color: '#b0b0b0' }}>
@@ -225,8 +226,8 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Kanan: Reflective Card Asli */}
-            <div className="col-lg-6 col-md-12 d-flex justify-content-center mt-5 mt-lg-0">
+            {/* Kanan (Garis Biru): Kolom kembali ke lebar col-lg-6, konten dipaksa berbaris ke kanan */}
+            <div className="col-lg-6 col-md-12 d-flex justify-content-lg-end mt-5 mt-lg-0">
               <ReflectiveCard
                 overlayColor="rgba(0, 0, 0, 0.25)"
                 blurStrength={14}

@@ -1,6 +1,7 @@
 import DarkVeil from './components/DarkVeil'
 import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
+import TechLogoLoop from './components/TechLogoLoop' // Import komponen baru
 import ProjectSection from './components/ProjectSection'
 import WhyHireMe from './components/WhyHireMe'
 import SkillsSection from './components/SkillsSection'
@@ -36,6 +37,10 @@ export default function App() {
       <div style={{ position: 'relative', zIndex: 2 }}>
         <Navbar />
         <HeroSection />
+        
+        {/* Infinite Logo Loop dipasang di sini */}
+        <TechLogoLoop />
+        
         <ProjectSection />
         <WhyHireMe />
         <SkillsSection />
