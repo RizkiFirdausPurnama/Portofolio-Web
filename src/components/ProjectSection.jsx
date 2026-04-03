@@ -79,19 +79,18 @@ const projectsData = [
     year: "2026",
     image: "Foto/Digi.png", 
     bgGradient: "linear-gradient(135deg, #1e1a2f 0%, #151020 100%)",
-    technologies: ["Laravel 5.4", "PHP 5.6", "MySQL"],
-    description: "DigiSing adalah aplikasi web Digital Signature (Tanda Tangan Elektronik) berbasis Laravel 5.4 yang terinspirasi dari OpenSign. Aplikasi ini memungkinkan pengguna untuk mengunggah dokumen PDF, menentukan posisi tanda tangan menggunakan fitur drag-and-drop, dan membubuhkan tanda tangan secara digital ke dalam dokumen."
+    technologies: ["Laravel 5.4", "PHP 5.6", "MySQL", "PDF.js"],
+    description: "DigiSing is a secure Digital Signature web application inspired by OpenSign, designed to digitalize and streamline corporate document approvals. I engineered this application entirely from scratch for corporate needs, independently handling the full software development lifecycle without team support.\n\n✨ Key Features:\n• Document Management: Integrated dashboard to track document statuses (Draft, Pending, Completed).\n• Interactive PDF Viewer: In-browser document preview using PDF.js without downloading.\n• Drag-and-Drop Editor: Visual interface for precise signature placement on PDF pages.\n• Multi-Signer Workflow: Supports sequential and parallel signing workflows for verified users.\n• Guest Signing: Secure, account-less signing via email links for external parties.\n• Signature Pad: Real-time digital signature drawing using mouse, stylus, or touch.\n• Reusable Templates: Save and reuse signature position templates for recurring documents.\n• Automated Notifications & Audit Log: Email alerts and detailed activity history tracking.\n• Auto-Generate & Cleanup: Automatically merges digital signatures into the original PDF and securely deletes physical files when documents are removed."
   },
   {
     id: 2,
     title: "Kasir Pintar",
     category: "FULL-STACK WEB",
     year: "2025 - Present",
-    image: "https://via.placeholder.com/1200x800/2a1b38/d4a8ff?text=SHOP.CO+Preview",
+    image: "Foto/KasirPintar.png",
     bgGradient: "linear-gradient(135deg, #2a1b38 0%, #170f1c 100%)",
     technologies: ["Next.js", "Tailwind CSS", "Supabase"],
-    repoLink: "https://github.com/RizkiFirdausPurnama/shop-co",
-    description: "Kasir Pintar adalah aplikasi web Point of Sales (POS) dan Dashboard Admin terintegrasi yang dibangun untuk membantu operasional bisnis ritel. Project ini menggabungkan kecepatan transaksi kasir dengan analisis data mendalam untuk memantau omset, profit, dan stok barang secara real-time."
+    description: "Kasir Pintar is an integrated Point of Sales (POS) and Admin Dashboard application built to optimize daily retail business operations. I designed and developed this system completely from scratch, taking full ownership from the initial database architecture up to the final production deployment.\n\n✨ Key Features & Business Logic:\n• Executive Dashboard (BI): Real-time financial monitoring featuring Gross Revenue, Real Profit calculation ((Selling Price - Capital Price) x Qty), Total Transactions, and Asset Valuation for warehouse stock. Includes a 7-day trend bar chart.\n• Smart Inventory Management: Proactive warehouse system with an automated Low Stock Alert algorithm, visual banners for critical items, and comprehensive CRUD & restock history management.\n• Optimized POS Interface: Distraction-free, fullscreen cashier mode. Features dynamic cart management, instant cash payments with automated change calculation, and support for Bank Transfers and Credit/Debt (Kasbon) payments—all logged precisely.\n• CRM & Reporting: Customer directory and comprehensive transaction reports with date-range filters."
   },
   {
     id: 3,
@@ -101,8 +100,8 @@ const projectsData = [
     image: "Foto/Shop.co.png",
     bgGradient: "linear-gradient(135deg, #231b2e 0%, #0f0a14 100%)",
     technologies: ["React.js", "Laravel 10", "Tailwind CSS", "MySQL"],
-    repoLink: "https://github.com/RizkiFirdausPurnama/doctime",
-    description: "SHOP.CO adalah aplikasi web E-Commerce responsif yang dibangun menggunakan arsitektur Headless (Frontend dan Backend terpisah). Project ini mengimplementasikan pengalaman belanja lengkap bagi user serta sistem manajemen inventaris (CMS) yang kuat bagi Admin. \n\nDeployment: \nFrontend: Vercel  \nBackend: Railway"
+    repoLink: "https://github.com/RizkiFirdausPurnama/doctime", // Ingat untuk diganti dengan link repo Shop.co yang benar
+    description: "SHOP.CO is a responsive E-Commerce web application built with a modern Headless architecture, separating the frontend shopping experience from the backend CMS. I built this platform entirely on my own and independently managed the complete deployment phase (Frontend on Vercel, Backend on Railway).\n\n✨ Key Features:\n• Customer Interface: Interactive homepage with dynamic Hero Banners, New Arrivals, and real-time live search with dropdown suggestions.\n• Advanced Product Details: Complete photo galleries and custom variants selection (Hex Code colors and multi-category sizing) with strict pre-cart stock validation.\n• Seamless Checkout & Dashboard: Dynamic shopping cart with auto-subtotal calculation, simulated checkout, and a user dashboard to track order statuses.\n• Admin CMS: Comprehensive dashboard visualizing Total Revenue, Orders, and Active Users. Features full CRUD capabilities for multi-variant products and incoming order management."
   },
   {
     id: 4,

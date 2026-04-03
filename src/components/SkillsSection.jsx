@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useReveal } from '../hooks/useReveal'
+import { SiNextdotjs, SiSupabase } from 'react-icons/si' // Tambahan untuk ikon Next & Supabase
 
 const skills = [
   { icon: 'fa-brands fa-figma',      label: 'Figma' },
@@ -15,6 +16,9 @@ const skills = [
   { icon: 'fa-brands fa-laravel',    label: 'Laravel' },
   { icon: 'fa-brands fa-git-alt',    label: 'Git' },
   { icon: 'fa-brands fa-react',      label: 'React.js' },
+  { icon: 'fa-brands fa-vuejs',      label: 'Vue.js' }, // Vue punya icon di FontAwesome
+  { customIcon: <SiNextdotjs />,     label: 'Next.js' }, // Menggunakan React Icons
+  { customIcon: <SiSupabase />,      label: 'Supabase' }, // Menggunakan React Icons
 ]
 
 function SkillIcon({ skill }) {
@@ -35,7 +39,15 @@ function SkillIcon({ skill }) {
         flexDirection: 'row',
       }}
     >
-      <i className={skill.icon} style={{ fontSize: '3rem', color: hovered ? '#101010' : '#f0f0f0', transition: 'color 0.3s' }} />
+      {/* Logika pintar: Jika pakai customIcon, render React Icons. Jika tidak, render FontAwesome */}
+      {skill.customIcon ? (
+        <div style={{ fontSize: '3rem', color: hovered ? '#101010' : '#f0f0f0', transition: 'color 0.3s', display: 'flex' }}>
+          {skill.customIcon}
+        </div>
+      ) : (
+        <i className={skill.icon} style={{ fontSize: '3rem', color: hovered ? '#101010' : '#f0f0f0', transition: 'color 0.3s' }} />
+      )}
+      
       {skill.extra && (
         <span style={{ fontSize: '2rem', fontWeight: 700, color: hovered ? '#101010' : '#f0f0f0', marginLeft: '-4px', lineHeight: 1, transition: 'color 0.3s' }}>
           {skill.extra}

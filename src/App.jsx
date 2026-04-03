@@ -3,7 +3,7 @@ import Navbar from './components/Navbar'
 import HeroSection from './components/HeroSection'
 import TechLogoLoop from './components/TechLogoLoop' // Import komponen baru
 import ProjectSection from './components/ProjectSection'
-import WhyHireMe from './components/WhyHireMe'
+import MyExperience from './components/MyExperience'
 import SkillsSection from './components/SkillsSection'
 import ContactSection from './components/ContactSection'
 
@@ -42,7 +42,7 @@ export default function App() {
         <TechLogoLoop />
         
         <ProjectSection />
-        <WhyHireMe />
+        <MyExperience />
         <SkillsSection />
         <ContactSection />
       </div>
