@@ -1,4 +1,3 @@
-// src/components/HeroSection.jsx
 import { useState, useEffect, useRef } from 'react'
 import { motion, useMotionValue, useAnimationFrame, useTransform } from 'motion/react'
 import ReflectiveCard from './ReflectiveCard'
@@ -91,12 +90,114 @@ function downloadCV() {
   document.body.removeChild(link)
 }
 
+// ── Komponen Tombol Glow (Adaptasi dari Navbar) ──
+function GlowButton({ children, onClick }) {
+  const buttonRef = useRef(null);
+
+  const handlePointerMove = (e) => {
+    const btn = buttonRef.current;
+    if (!btn) return;
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    btn.style.setProperty('--mouse-x', `${x}px`);
+    btn.style.setProperty('--mouse-y', `${y}px`);
+  };
+
+  return (
+    <button
+      ref={buttonRef}
+      onPointerMove={handlePointerMove}
+      onClick={onClick}
+      className="btn-glow-effect"
+    >
+      {children}
+    </button>
+  );
+}
+
+// ── CSS Injeksi untuk Animasi Blink & Glow Button ──
+const heroCSS = `
+@keyframes blink { 50% { opacity: 0; } }
+
+.btn-glow-effect {
+  --mouse-x: -1000px;
+  --mouse-y: -1000px;
+  position: relative;
+  display: inline-block;
+  margin-top: 1.75rem;
+  padding: 12px 32px;
+  border-radius: 999px; /* Bentuk pill/kapsul agar senada dengan navbar */
+  background: rgba(15,10,25,0.65); /* Transparan gelap */
+  border: 1px solid rgba(176,110,243,0.25);
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  isolation: isolate;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Glow di garis border yang mengikuti kursor */
+.btn-glow-effect::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: radial-gradient(
+    80px circle at var(--mouse-x) var(--mouse-y),
+    #f472b6 0%,
+    #c084fc 40%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Bias cahaya lembut ke arah luar */
+.btn-glow-effect::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    60px circle at var(--mouse-x) var(--mouse-y),
+    rgba(192, 132, 252, 0.4) 0%,
+    transparent 100%
+  );
+  filter: blur(10px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-glow-effect:hover::after,
+.btn-glow-effect:hover::before {
+  opacity: 1;
+}
+
+.btn-glow-effect:hover {
+  background: rgba(15,10,25,0.88);
+  box-shadow: 0 4px 20px rgba(155,89,182,0.2);
+}
+`;
+
 export default function HeroSection() {
   const name = useTyping('Rizki Firdaus Purnama', 110, 400)
   const role = useRoles(['Web Development', 'Full Stack Development', 'Front-End Development', 'Data Analytics'])
 
   return (
     <div id="home">
+      <style dangerouslySetInnerHTML={{ __html: heroCSS }} />
+      
       {/* ========================================== */}
       {/* 1. SECTION INTRO (Terkunci 1 Layar Penuh)    */}
       {/* ========================================== */}
@@ -127,7 +228,7 @@ export default function HeroSection() {
           </p>
         </div>
 
-        {/* Indikator Panah Scroll ke Bawah (Posisi tetap di bawah layar) */}
+        {/* Indikator Panah Scroll ke Bawah */}
         <motion.div 
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
@@ -152,13 +253,11 @@ export default function HeroSection() {
         paddingTop: '100px', 
         paddingBottom: '40px' 
       }}>
-        {/* Container lebar asli */}
         <div className="container" style={{ margin: '0 auto', maxWidth: '1140px', width: '100%' }}>
           
-          {/* PERUBAHAN TATA LETAK: Menggunakan justify-content-between untuk menempatkan elemen di tepi luar kontainer */}
           <div className="row align-items-center justify-content-between">
 
-            {/* Kiri (Garis Merah): Kolom kembali ke lebar col-lg-6, konten berbaris ke kiri secara default */}
+            {/* Kiri: Teks & Tombol */}
             <div className="col-lg-6 col-md-12">
               <span style={{ fontSize: '1.1rem', color: '#a0a0a0', letterSpacing: '0.05em' }}>Hello Guys</span>
 
@@ -187,23 +286,10 @@ export default function HeroSection() {
                 Computer Science student at Binus University focusing on Full-Stack and Web Development. Passionate about building robust, scalable, and functional web applications. Experienced in handling end-to-end development lifecycles, combining strong technical logic across both frontend interfaces and backend architectures to deliver efficient software solutions.
               </p>
 
-              {/* Tombol Download CV */}
-              <button
-                onClick={downloadCV}
-                style={{
-                  display: 'inline-block', marginTop: '1.75rem',
-                  background: '#9b59b6', color: '#fff',
-                  padding: '12px 32px', borderRadius: '8px',
-                  border: 'none', cursor: 'pointer', fontWeight: 600,
-                  fontSize: '1rem', fontFamily: 'inherit',
-                  transition: 'background 0.3s, box-shadow 0.3s',
-                  boxShadow: '0 0 18px rgba(155,89,182,0.5)',
-                }}
-                onMouseEnter={e => { e.target.style.background = '#8e44ad'; e.target.style.boxShadow = '0 0 28px rgba(155,89,182,0.8)' }}
-                onMouseLeave={e => { e.target.style.background = '#9b59b6'; e.target.style.boxShadow = '0 0 18px rgba(155,89,182,0.5)' }}
-              >
+              {/* Tombol Download CV dengan Efek Glow Navbar */}
+              <GlowButton onClick={downloadCV}>
                 Download CV
-              </button>
+              </GlowButton>
 
               {/* Social */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginTop: '2rem' }}>
@@ -226,7 +312,7 @@ export default function HeroSection() {
               </div>
             </div>
 
-            {/* Kanan (Garis Biru): Kolom kembali ke lebar col-lg-6, konten dipaksa berbaris ke kanan */}
+            {/* Kanan: Reflective Card */}
             <div className="col-lg-6 col-md-12 d-flex justify-content-lg-end mt-5 mt-lg-0">
               <ReflectiveCard
                 overlayColor="rgba(0, 0, 0, 0.25)"
@@ -244,7 +330,6 @@ export default function HeroSection() {
 
           </div>
         </div>
-        <style>{`@keyframes blink { 50% { opacity: 0; } }`}</style>
       </section>
     </div>
   )
