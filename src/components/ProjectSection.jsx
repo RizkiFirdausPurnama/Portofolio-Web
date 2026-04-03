@@ -77,33 +77,32 @@ const projectsData = [
     title: "Digital Sign System",
     category: "FULL-STACK WEB",
     year: "2026",
-    image: "https://via.placeholder.com/1200x800/1e1a2f/b06ef3?text=Kasir+Pintar+Preview", 
+    image: "Foto/Digi.png", 
     bgGradient: "linear-gradient(135deg, #1e1a2f 0%, #151020 100%)",
     technologies: ["Laravel 5.4", "PHP 5.6", "MySQL"],
-    repoLink: "https://github.com/RizkiFirdausPurnama/kasir-pintar",
-    description: "Sistem Point of Sale (POS) modern berbasis web. Dilengkapi dengan fitur manajemen inventaris, pelacakan transaksi *real-time*, dan *dashboard* analitik untuk mempermudah pemantauan penjualan toko secara efisien."
+    description: "DigiSing adalah aplikasi web Digital Signature (Tanda Tangan Elektronik) berbasis Laravel 5.4 yang terinspirasi dari OpenSign. Aplikasi ini memungkinkan pengguna untuk mengunggah dokumen PDF, menentukan posisi tanda tangan menggunakan fitur drag-and-drop, dan membubuhkan tanda tangan secara digital ke dalam dokumen."
   },
   {
     id: 2,
-    title: "SHOP.CO",
-    category: "E-COMMERCE",
-    year: "2025",
-    image: "Foto/Shop.co.png",
+    title: "Kasir Pintar",
+    category: "FULL-STACK WEB",
+    year: "2025 - Present",
+    image: "https://via.placeholder.com/1200x800/2a1b38/d4a8ff?text=SHOP.CO+Preview",
     bgGradient: "linear-gradient(135deg, #2a1b38 0%, #170f1c 100%)",
-    technologies: ["React.js", "Laravel", "MySQL"],
+    technologies: ["Next.js", "Tailwind CSS", "Supabase"],
     repoLink: "https://github.com/RizkiFirdausPurnama/shop-co",
-    description: "Platform e-commerce *end-to-end* dengan antarmuka yang responsif. Mengintegrasikan React di sisi *frontend* untuk pengalaman pengguna yang dinamis dan Laravel sebagai *backend* API yang kokoh untuk menangani logika keranjang belanja dan autentikasi."
+    description: "Kasir Pintar adalah aplikasi web Point of Sales (POS) dan Dashboard Admin terintegrasi yang dibangun untuk membantu operasional bisnis ritel. Project ini menggabungkan kecepatan transaksi kasir dengan analisis data mendalam untuk memantau omset, profit, dan stok barang secara real-time."
   },
   {
     id: 3,
-    title: "DocTime",
-    category: "UI/UX & FRONT-END",
+    title: "SHOP.CO",
+    category: "FULL-STACK WEB",
     year: "2025",
-    image: "https://via.placeholder.com/1200x800/231b2e/b06ef3?text=DocTime+Preview",
+    image: "Foto/Shop.co.png",
     bgGradient: "linear-gradient(135deg, #231b2e 0%, #0f0a14 100%)",
-    technologies: ["Figma", "React.js", "CSS"],
+    technologies: ["React.js", "Laravel 10", "Tailwind CSS", "MySQL"],
     repoLink: "https://github.com/RizkiFirdausPurnama/doctime",
-    description: "Aplikasi konsultasi kesehatan kolaboratif. Fokus utama pada perancangan UI/UX yang intuitif bagi pasien dan dokter, serta implementasi desain tersebut menjadi komponen *front-end* React yang interaktif."
+    description: "SHOP.CO adalah aplikasi web E-Commerce responsif yang dibangun menggunakan arsitektur Headless (Frontend dan Backend terpisah). Project ini mengimplementasikan pengalaman belanja lengkap bagi user serta sistem manajemen inventaris (CMS) yang kuat bagi Admin. \n\nDeployment: \nFrontend: Vercel  \nBackend: Railway"
   },
   {
     id: 4,
@@ -113,7 +112,8 @@ const projectsData = [
     image: "https://via.placeholder.com/1200x800/1c1826/d4a8ff?text=Digital+Sign+Preview",
     bgGradient: "linear-gradient(135deg, #1c1826 0%, #0a080d 100%)",
     technologies: ["Laravel", "PHP", "MySQL", "JavaScript"],
-    repoLink: "https://github.com/RizkiFirdausPurnama/digital-sign",
+    // Hapus tautan ini untuk menyembunyikan tombol View Repository
+    // repoLink: "https://github.com/RizkiFirdausPurnama/digital-sign",
     description: "Aplikasi Digital Signature yang dibangun dari nol (0) secara mandiri untuk kebutuhan korporasi. Sistem ini mendigitalisasi alur persetujuan dokumen dengan keamanan dan pelacakan riwayat tanda tangan secara terpusat."
   }
 ];
@@ -321,47 +321,43 @@ export default function ProjectSection() {
                 <i className="fa-solid fa-xmark" style={{ pointerEvents: 'none', fontSize: '1.2rem' }}></i>
               </button>
 
-              {/* ── AREA GAMBAR DIBIARKAN LOSS KE BAWAH ── */}
+              {/* ── AREA GAMBAR DENGAN GRADIENT FADE ── */}
               <div style={{ 
                 position: 'relative',
                 width: '100%', 
+                flexShrink: 0, // KUNCI UTAMA: Memaksa container ini tidak disusutkan oleh Flexbox modal!
                 background: selectedProject.bgGradient,
                 borderTopLeftRadius: '24px', 
                 borderTopRightRadius: '24px',
+                overflow: 'hidden'
               }}>
                 <img 
                   src={selectedProject.image} 
                   alt={selectedProject.title} 
                   style={{ 
                     width: '100%', 
-                    height: 'auto', // Dibiarkan auto agar gambar merentang penuh ke bawah
+                    height: 'auto', // Gambar merentang penuh sesuai aslinya ke bawah
                     display: 'block',
-                    borderTopLeftRadius: '24px', 
-                    borderTopRightRadius: '24px',
                     zIndex: 1
                   }} 
                 />
                 
-                {/* Efek Gradien Mudar Menyatu Hitam hanya di ujung bawah gambar */}
+                {/* Efek Gradien Mudar Menyatu Hitam dikembalikan agar desain tetap smooth */}
                 <div style={{
                   position: 'absolute',
                   bottom: 0, 
                   left: 0,
                   right: 0,
-                  height: '150px', 
-                  background: 'linear-gradient(to bottom, transparent 0%, #0a0612 100%)',
+                  height: '250px', 
+                  background: 'linear-gradient(to bottom, rgba(10,6,18,0) 0%, #0a0612 100%)',
                   zIndex: 2,
                   pointerEvents: 'none'
                 }} />
               </div>
 
-              {/* ── AREA KONTEN (TIDAK MENIMPA GAMBAR) ── */}
-              <div style={{ 
-                padding: '20px 50px 40px 50px', // Jarak aman, tidak ada margin minus
-                background: '#0a0612', 
-                position: 'relative', 
-                zIndex: 3 
-              }}>
+              {/* ── AREA KONTEN ── */}
+              {/* Efek melayang (overlap) dikembalikan seperti yang kamu suka */}
+              <div style={{ padding: '0 50px 40px 50px', position: 'relative', zIndex: 3, marginTop: '-45px' }}>
                 
                 <div style={{ 
                   display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', 
@@ -400,22 +396,25 @@ export default function ProjectSection() {
                     <span style={{ display: 'inline-block', width: '4px', height: '16px', background: '#b06ef3', borderRadius: '2px' }}></span>
                     ABOUT PROJECT
                   </h4>
-                  <p style={{ color: '#a0a0a0', lineHeight: 1.8, fontSize: '1.05rem', margin: 0 }}>
+                  <p style={{ color: '#a0a0a0', lineHeight: 1.8, fontSize: '1.05rem', margin: 0, whiteSpace: 'pre-line' }}>
                     {selectedProject.description}
                   </p>
                 </div>
 
-                <div style={{ 
-                  borderTop: '1px solid rgba(176,110,243,0.1)', 
-                  paddingTop: '30px', 
-                  marginTop: '10px',
-                  display: 'flex',
-                  justifyContent: 'flex-start' 
-                }}>
-                    <GlowButton href={selectedProject.repoLink}>
-                        <i className="fa-brands fa-github" style={{ fontSize: '1.1rem', color: '#d4a8ff' }}></i> View Repository
-                    </GlowButton>
-                </div>
+                {/* Tombol otomatis hilang jika tidak ada link */}
+                {selectedProject.repoLink && (
+                  <div style={{ 
+                    borderTop: '1px solid rgba(176,110,243,0.1)', 
+                    paddingTop: '30px', 
+                    marginTop: '10px',
+                    display: 'flex',
+                    justifyContent: 'flex-start' 
+                  }}>
+                      <GlowButton href={selectedProject.repoLink}>
+                          <i className="fa-brands fa-github" style={{ fontSize: '1.1rem', color: '#d4a8ff' }}></i> View Repository
+                      </GlowButton>
+                  </div>
+                )}
 
               </div>
             </motion.div>
