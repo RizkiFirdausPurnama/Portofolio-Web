@@ -192,7 +192,7 @@ const heroCSS = `
 
 export default function HeroSection() {
   const name = useTyping('Rizki Firdaus Purnama', 110, 400)
-  const role = useRoles(['Web Development', 'Full Stack Development', 'Front-End Development', 'Data Analytics'])
+  const role = useRoles(['Web Development', 'Full Stack Development', 'Front-End Development'])
 
   return (
     <div id="home">
@@ -217,14 +217,14 @@ export default function HeroSection() {
           </p>
           
           <h1 style={{ fontSize: 'clamp(3rem, 8vw, 6.5rem)', fontWeight: 800, lineHeight: 1.05, margin: 0, letterSpacing: '-0.03em' }}>
-            <GradientText>Visuals by Heart.</GradientText>
+            <GradientText>Crafting the Surface.</GradientText>
           </h1>
           <h1 style={{ fontSize: 'clamp(3rem, 8vw, 6.5rem)', fontWeight: 800, color: '#f0f0f0', lineHeight: 1.05, margin: 0, letterSpacing: '-0.03em' }}>
-            Logic by Code.
+            Forging the Core.
           </h1>
 
           <p style={{ fontSize: '1rem', color: '#b0b0b0', marginTop: '2.5rem', fontWeight: 400, letterSpacing: '0.02em' }}>
-            Computer Science Student • Web Developer • Data Enthusiast
+            Computer Science Student • Web Developer • Full Stack Developer
           </p>
         </div>
 

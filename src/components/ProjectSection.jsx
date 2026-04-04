@@ -105,15 +105,14 @@ const projectsData = [
   },
   {
     id: 4,
-    title: "Digital Sign System",
-    category: "FULL-STACK WEB",
-    year: "2026",
-    image: "https://via.placeholder.com/1200x800/1c1826/d4a8ff?text=Digital+Sign+Preview",
-    bgGradient: "linear-gradient(135deg, #1c1826 0%, #0a080d 100%)",
-    technologies: ["Laravel", "PHP", "MySQL", "JavaScript"],
-    // Hapus tautan ini untuk menyembunyikan tombol View Repository
-    // repoLink: "https://github.com/RizkiFirdausPurnama/digital-sign",
-    description: "Aplikasi Digital Signature yang dibangun dari nol (0) secara mandiri untuk kebutuhan korporasi. Sistem ini mendigitalisasi alur persetujuan dokumen dengan keamanan dan pelacakan riwayat tanda tangan secara terpusat."
+    title: "DocTime",
+    category: "UI/UX & FRONT-END",
+    year: "2025",
+    image: "Foto/doctime.png", 
+    bgGradient: "linear-gradient(135deg, #231b2e 0%, #0f0a14 100%)",
+    technologies: ["HTML5", "CSS3", "Vanilla JS", "Figma"],
+    repoLink: "https://github.com/RizkiFirdausPurnama/Web-DocTime", // Kosongkan atau hapus baris ini jika tidak ada repository-nya
+    description: "DocTime is a static website prototype for an online health consultation service. This project was developed collaboratively in a team of 4, where my primary role focused on UI/UX Design and Front-end Development using pure HTML, CSS, and Vanilla JavaScript.\n\n✨ Key Features:\n• Interactive Popup Login: Modal-based login interface on the homepage without requiring page reloads.\n• Dedicated Registration & Routing: Seamless user flow routing from a dedicated sign-up page to success messaging, login, and finally the user dashboard.\n• Client-Side Validation: Strict form validation enforcing mandatory fields and specific email domains (@gmail.com) for registration.\n• Multi-Page Navigation: Smooth navigation logic across various prototype interfaces including home, chat, and schedule pages.\n• Organized Architecture: Clean and modular file structure separating HTML (layout), CSS (styling), and JavaScript (logic)."
   }
 ];
 
