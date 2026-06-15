@@ -1,6 +1,6 @@
 # MyPorto - Website Portofolio Rizki Firdaus Purnama
 
-Ini adalah website portofolio pribadi yang dibuat untuk memamerkan proyek, keahlian, dan latar belakang Rizki Firdaus Purnama sebagai seorang mahasiswa Computer Science di Binus University dengan fokus pada Front-End Development.
+Ini adalah website portofolio pribadi yang dibuat untuk memamerkan proyek, keahlian, dan latar belakang Rizki Firdaus Purnama sebagai seorang mahasiswa Computer Science di Binus University dengan fokus pada Front-End Development
 
 **[https://portofolio-web-neon-nine.vercel.app/]** 
 
