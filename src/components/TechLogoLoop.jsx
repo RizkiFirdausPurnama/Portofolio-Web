@@ -8,7 +8,7 @@ import {
 
 // Menggunakan SimpleIcons (si) khusus untuk ikon spesifik yang aman
 import { 
-  SiNextdotjs, SiTailwindcss, SiSupabase, SiMysql 
+  SiNextdotjs, SiTailwindcss, SiSupabase, SiMysql, SiPostgresql
 } from 'react-icons/si';
 
 // ==========================================
@@ -227,6 +227,7 @@ export default function TechLogoLoop() {
     { node: <FaNodeJs />, title: "Node.js" },
     { node: <FaPython />, title: "Python" },
     { node: <SiMysql />, title: "MySQL" },
+    { node: <SiPostgresql />, title: "PostgreSQL" },
     { node: <SiSupabase />, title: "Supabase" },
     { node: <FaGitAlt />, title: "Git" },
     { node: <FaFigma />, title: "Figma" },

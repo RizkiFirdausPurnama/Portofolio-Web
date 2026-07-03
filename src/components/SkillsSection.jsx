@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useReveal } from '../hooks/useReveal'
-import { SiNextdotjs, SiSupabase } from 'react-icons/si' // Tambahan untuk ikon Next & Supabase
+import { SiNextdotjs, SiSupabase, SiPostgresql } from 'react-icons/si' // Tambahan untuk ikon Next, Supabase, PostgreSQL
 
 const skills = [
   { icon: 'fa-brands fa-figma',      label: 'Figma' },
@@ -19,6 +19,7 @@ const skills = [
   { icon: 'fa-brands fa-vuejs',      label: 'Vue.js' }, // Vue punya icon di FontAwesome
   { customIcon: <SiNextdotjs />,     label: 'Next.js' }, // Menggunakan React Icons
   { customIcon: <SiSupabase />,      label: 'Supabase' }, // Menggunakan React Icons
+  { customIcon: <SiPostgresql />,    label: 'PostgreSQL' }, // Menggunakan React Icons
 ]
 
 function SkillIcon({ skill }) {
