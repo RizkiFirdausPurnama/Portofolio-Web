@@ -313,7 +313,11 @@ export default function HeroSection() {
             </div>
 
             {/* Kanan: Reflective Card */}
-            <div className="col-lg-6 col-md-12 d-flex justify-content-lg-end mt-5 mt-lg-0">
+            <motion.div 
+              className="col-lg-6 col-md-12 d-flex justify-content-lg-end mt-5 mt-lg-0"
+              animate={{ y: [0, -20, 0] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+            >
               <ReflectiveCard
                 overlayColor="rgba(0, 0, 0, 0.25)"
                 blurStrength={14}
@@ -326,7 +330,7 @@ export default function HeroSection() {
                 grayscale={0.15}
                 color="#ffffff"
               />
-            </div>
+            </motion.div>
 
           </div>
         </div>
