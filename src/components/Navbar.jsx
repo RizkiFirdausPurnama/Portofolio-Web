@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, useMotionValue, useAnimationFrame, useTransform } from 'motion/react';
+import GradientText from './GradientText';
 
 // ==========================================
 // 1. INJECT CSS BORDER GLOW
@@ -55,49 +55,7 @@ const borderGlowCSS = `
 `;
 
 // ==========================================
-// 2. KOMPONEN GRADIENT TEXT
-// ==========================================
-function GradientText({ children, colors = ['#9b59b6', '#d4a8ff', '#b06ef3', '#ffffff', '#9b59b6'], animationSpeed = 6 }) {
-  const progress = useMotionValue(0);
-  const elapsedRef = useRef(0);
-  const lastTimeRef = useRef(null);
-  const animationDuration = animationSpeed * 1000;
-
-  useAnimationFrame(time => {
-    if (lastTimeRef.current === null) { lastTimeRef.current = time; return; }
-    elapsedRef.current += time - lastTimeRef.current;
-    lastTimeRef.current = time;
-    const fullCycle = animationDuration * 2;
-    const cycleTime = elapsedRef.current % fullCycle;
-    progress.set(cycleTime < animationDuration
-      ? (cycleTime / animationDuration) * 100
-      : 100 - ((cycleTime - animationDuration) / animationDuration) * 100
-    );
-  });
-
-  const backgroundPosition = useTransform(progress, p => `${p}% 50%`);
-  const gradientColors = [...colors, colors[0]].join(', ');
-  const gradientStyle = {
-    backgroundImage: `linear-gradient(to right, ${gradientColors})`,
-    backgroundSize: '300% 100%',
-    backgroundRepeat: 'repeat',
-    backgroundClip: 'text',
-    WebkitBackgroundClip: 'text',
-    color: 'transparent',
-    display: 'inline-block',
-    fontWeight: 700,
-    fontSize: '1.25rem',
-  };
-
-  return (
-    <motion.span style={{ ...gradientStyle, backgroundPosition }}>
-      {children}
-    </motion.span>
-  );
-}
-
-// ==========================================
-// 3. MAIN NAVBAR COMPONENT
+// 2. MAIN NAVBAR COMPONENT
 // ==========================================
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -129,7 +87,8 @@ export default function Navbar() {
     { label: 'Home', href: '#home' },
     { label: 'About', href: '#about-me' },
     { label: 'Project', href: '#project' },
-    { label: 'Tools & Skills', href: '#skills' },
+    { label: 'Experience', href: '#experience' },
+    { label: 'Skills', href: '#skills' },
   ];
 
   const handleNavClick = (href) => {
@@ -166,7 +125,7 @@ export default function Navbar() {
           
           <div className="border-glow-inner">
             {/* Brand */}
-            <a href="#home" onClick={() => handleNavClick('#home')} style={{ textDecoration: 'none', cursor: 'pointer' }}>
+            <a href="#home" onClick={(e) => { e.preventDefault(); handleNavClick('#home'); }} style={{ textDecoration: 'none', cursor: 'pointer', fontWeight: 700, fontSize: '1.25rem' }}>
               <GradientText>MyPorto</GradientText>
             </a>
 
@@ -182,7 +141,7 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <a href="https://www.linkedin.com/in/rizki-firdaus-purnama-bb2414255/" target="_blank" rel="noreferrer"
+              <a href="#contact" onClick={(e) => { e.preventDefault(); handleNavClick('#contact'); }}
                 style={{
                   background: 'rgba(155,89,182,0.85)', color: '#fff', padding: '7px 20px',
                   borderRadius: '999px', textDecoration: 'none', fontWeight: 600, fontSize: '0.9rem',
@@ -229,7 +188,7 @@ export default function Navbar() {
             </a>
           ))}
           <div style={{ borderTop: '1px solid rgba(176,110,243,0.15)', marginTop: '8px', paddingTop: '8px' }}>
-            <a href="https://www.linkedin.com/in/rizki-firdaus-purnama-bb2414255/" target="_blank" rel="noreferrer"
+            <a href="#contact" onClick={(e) => { e.preventDefault(); handleNavClick('#contact'); }}
               style={{ display: 'block', background: '#9b59b6', color: '#fff', padding: '11px 16px', borderRadius: '12px', textDecoration: 'none', fontWeight: 600, textAlign: 'center' }}>
               Contact Me
             </a>

@@ -137,7 +137,14 @@ export default function DarkVeil({
       frame = requestAnimationFrame(loop);
     };
 
-    loop();
+    // Jika pengguna memilih "kurangi animasi", render satu frame saja (statis)
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      program.uniforms.uTime.value = 0;
+      renderer.render({ scene: mesh });
+    } else {
+      loop();
+    }
 
     return () => {
       cancelAnimationFrame(frame);

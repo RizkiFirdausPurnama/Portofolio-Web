@@ -7,16 +7,19 @@
   --color-purple: #9b59b6;
   --color-purple-darker: #8e44ad;
   --color-purple-faded: rgba(155, 89, 182, 0.1);
+  --color-accent: #b06ef3;
+  --color-accent-light: #d4a8ff;
+  --section-space: 96px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 
 body {
   font-family: 'Poppins', sans-serif;
   background-color: #080510;
   color: var(--text-light);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 h1, h2, h3, h4, h5, h6 { font-weight: 600; }
@@ -35,4 +38,138 @@ p  { color: var(--text-secondary); line-height: 1.7; }
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ── Ritme section yang seragam ── */
+.page-section {
+  position: relative;
+  padding: var(--section-space) 0;
+  scroll-margin-top: 40px;
+}
+.page-section > .container {
+  max-width: 1140px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* ── Header section (SectionHeader.jsx) ── */
+.section-header {
+  text-align: center;
+  margin: 0 auto 64px;
+  max-width: 640px;
+}
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+.section-eyebrow i { font-size: 0.8rem; }
+.section-title {
+  font-size: clamp(2.2rem, 6vw, 3.5rem);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+.section-subtitle-text {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  margin: 14px auto 0;
+}
+
+/* ── Tombol glow (GlowButton.jsx) ── */
+.btn-glow-effect {
+  --mouse-x: -1000px;
+  --mouse-y: -1000px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background: rgba(15,10,25,0.65);
+  border: 1px solid rgba(176,110,243,0.25);
+  color: #fff;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  isolation: isolate;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-glow-effect:hover { color: #fff; }
+
+/* Glow di garis border yang mengikuti kursor */
+.btn-glow-effect::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: radial-gradient(80px circle at var(--mouse-x) var(--mouse-y), #f472b6 0%, #c084fc 40%, transparent 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Bias cahaya lembut ke arah luar */
+.btn-glow-effect::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(60px circle at var(--mouse-x) var(--mouse-y), rgba(192, 132, 252, 0.4) 0%, transparent 100%);
+  filter: blur(10px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-glow-effect:hover::after,
+.btn-glow-effect:hover::before { opacity: 1; }
+
+.btn-glow-effect:hover {
+  background: rgba(15,10,25,0.88);
+  box-shadow: 0 4px 20px rgba(155,89,182,0.2);
+}
+
+.btn-glow-primary {
+  background: rgba(155,89,182,0.85);
+  border-color: rgba(176,110,243,0.5);
+  box-shadow: 0 0 14px rgba(155,89,182,0.35);
+}
+.btn-glow-primary:hover {
+  background: #9b59b6;
+  box-shadow: 0 0 24px rgba(155,89,182,0.6);
+}
+
+.btn-glow-effect:focus-visible,
+.project-card:focus-visible {
+  outline: 2px solid var(--color-accent-light);
+  outline-offset: 4px;
+}
+
+/* ── Hormati preferensi kurangi animasi ── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
 }

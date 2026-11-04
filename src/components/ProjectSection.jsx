@@ -1,74 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useMotionValue, useAnimationFrame, useTransform } from 'motion/react';
-import { FaHtml5, FaCss3Alt, FaJs, FaBootstrap, FaReact, FaVuejs, FaPhp, FaLaravel, FaNodeJs, FaPython, FaGitAlt, FaFigma } from 'react-icons/fa';
-import { SiNextdotjs, SiTailwindcss, SiSupabase, SiMysql } from 'react-icons/si';
-
-// ── GradientText inline ──
-function GradientText({ children, colors = ['#9b59b6', '#d4a8ff', '#b06ef3', '#ffffff', '#9b59b6'], animationSpeed = 6 }) {
-  const progress = useMotionValue(0)
-  const elapsedRef = useRef(0)
-  const lastTimeRef = useRef(null)
-  const animationDuration = animationSpeed * 1000
-
-  useAnimationFrame(time => {
-    if (lastTimeRef.current === null) { lastTimeRef.current = time; return }
-    elapsedRef.current += time - lastTimeRef.current
-    lastTimeRef.current = time
-    const fullCycle = animationDuration * 2
-    const cycleTime = elapsedRef.current % fullCycle
-    progress.set(cycleTime < animationDuration
-      ? (cycleTime / animationDuration) * 100
-      : 100 - ((cycleTime - animationDuration) / animationDuration) * 100
-    )
-  })
-
-  const backgroundPosition = useTransform(progress, p => `${p}% 50%`)
-  const gradientColors = [...colors, colors[0]].join(', ')
-  const gradientStyle = {
-    backgroundImage: `linear-gradient(to right, ${gradientColors})`,
-    backgroundSize: '300% 100%',
-    backgroundRepeat: 'repeat',
-    backgroundClip: 'text',
-    WebkitBackgroundClip: 'text',
-    color: 'transparent',
-    display: 'inline-block',
-    fontWeight: 'inherit',
-  }
-
-  return (
-    <motion.span style={{ ...gradientStyle, backgroundPosition }}>
-      {children}
-    </motion.span>
-  )
-}
-
-// ── GlowButton inline untuk modal footer ──
-function GlowButton({ children, href }) {
-  const buttonRef = useRef(null);
-
-  const handlePointerMove = (e) => {
-    const btn = buttonRef.current;
-    if (!btn) return;
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    btn.style.setProperty('--mouse-x', `${x}px`);
-    btn.style.setProperty('--mouse-y', `${y}px`);
-  };
-
-  return (
-    <a
-      ref={buttonRef}
-      onPointerMove={handlePointerMove}
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      className="btn-glow-effect"
-    >
-      {children}
-    </a>
-  );
-}
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import SectionHeader from './SectionHeader';
+import GlowButton from './GlowButton';
+import { useReveal } from '../hooks/useReveal';
 
 // Data Project 
 const projectsData = [
@@ -118,156 +52,201 @@ const projectsData = [
 
 const projectCSS = `
   .project-card {
-    transition: transform 0.3s ease;
+    display: block;
+    width: 100%;
+    padding: 0;
+    background: none;
+    border: none;
+    text-align: left;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    border-radius: 24px;
   }
   .project-card .img-wrapper {
     overflow: hidden;
     position: relative;
     border-radius: 24px;
-    padding: 40px;
+    padding: 24px 24px 0;
+    aspect-ratio: 16 / 10;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 350px;
-    border: 1px solid rgba(176,110,243,0.1);
+    align-items: flex-start;
+    border: 1px solid rgba(176,110,243,0.12);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
   .project-card .project-img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 12px;
+    object-position: top center;
+    border-radius: 12px 12px 0 0;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
   }
-  .project-card:hover .img-wrapper {
-    border-color: rgba(176,110,243,0.4);
-    box-shadow: 0 10px 40px rgba(176,110,243,0.15);
+  .project-card .view-hint {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgba(15,10,25,0.85);
+    border: 1px solid rgba(176,110,243,0.4);
+    color: #f0f0f0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    backdrop-filter: blur(6px);
+  }
+  .project-card:hover .img-wrapper,
+  .project-card:focus-visible .img-wrapper {
+    border-color: rgba(176,110,243,0.45);
+    box-shadow: 0 10px 40px rgba(176,110,243,0.18);
   }
   .project-card:hover .project-img {
-    transform: scale(1.05) translateY(-5px);
+    transform: scale(1.04) translateY(-4px);
+  }
+  .project-card:hover .view-hint,
+  .project-card:focus-visible .view-hint {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .project-meta {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .project-title {
+    display: block;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    color: #f0f0f0;
+    font-weight: 700;
+    margin: 0 0 6px;
+    letter-spacing: -0.02em;
+  }
+  .project-category {
+    color: #a0a0a0;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+  .project-year {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #a0a0a0;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .project-tag {
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: rgba(176,110,243,0.08);
+    border: 1px solid rgba(176,110,243,0.2);
+    color: #d4a8ff;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+  .modal-content-area { padding: 0 50px 40px 50px; }
+  .modal-title {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 800;
+    color: #f0f0f0;
+    margin: 0;
+    letter-spacing: -0.03em;
+  }
+  @media (max-width: 576px) {
+    .modal-content-area { padding: 0 22px 28px 22px; }
+    .project-card .img-wrapper { padding: 14px 14px 0; border-radius: 18px; }
   }
   .custom-scrollbar::-webkit-scrollbar {
     width: 8px;
   }
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: #0a0612; 
+    background: #0a0612;
     border-radius: 0 24px 24px 0;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(176,110,243,0.3); 
+    background: rgba(176,110,243,0.3);
     border-radius: 10px;
   }
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(176,110,243,0.5); 
-  }
-
-  /* CSS Tombol Glow Repo */
-  .btn-glow-effect {
-    --mouse-x: -1000px;
-    --mouse-y: -1000px;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 28px;
-    border-radius: 999px;
-    background: rgba(15,10,25,0.65);
-    border: 1px solid rgba(176,110,243,0.25);
-    color: #fff;
-    font-weight: 600;
-    font-size: 1rem;
-    text-decoration: none;
-    cursor: pointer;
-    isolation: isolate;
-    transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
-  }
-
-  .btn-glow-effect::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    padding: 1.5px;
-    background: radial-gradient(
-      80px circle at var(--mouse-x) var(--mouse-y),
-      #f472b6 0%,
-      #c084fc 40%,
-      transparent 100%
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .btn-glow-effect:hover::after {
-    opacity: 1;
-  }
-
-  .btn-glow-effect:hover {
-    background: rgba(15,10,25,0.88);
-    box-shadow: 0 4px 20px rgba(155,89,182,0.2);
-    color: #fff;
+    background: rgba(176,110,243,0.5);
   }
 `;
+
+function ProjectCard({ proj, onOpen }) {
+  const ref = useReveal();
+  return (
+    <div ref={ref} className="reveal">
+      <button type="button" className="project-card" onClick={() => onOpen(proj)} aria-label={`Lihat detail ${proj.title}`}>
+        <span className="img-wrapper" style={{ background: proj.bgGradient }}>
+          <img src={proj.image} alt={proj.title} className="project-img" loading="lazy" />
+          <span className="view-hint">View Details <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.75rem' }} /></span>
+        </span>
+
+        <span className="project-meta">
+          <span>
+            <span className="project-title">{proj.title}</span>
+            <span className="project-category">{proj.category}</span>
+          </span>
+          <span className="project-year">{proj.year}</span>
+        </span>
+
+        <span className="project-tags">
+          {proj.technologies.slice(0, 3).map(tech => (
+            <span key={tech} className="project-tag">{tech}</span>
+          ))}
+        </span>
+      </button>
+    </div>
+  );
+}
 
 export default function ProjectSection() {
   const [selectedProject, setSelectedProject] = useState(null);
 
   useEffect(() => {
-    if (selectedProject) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => { document.body.style.overflow = 'unset'; }
+    if (!selectedProject) return;
+    document.body.style.overflow = 'hidden';
+    const onKey = e => { if (e.key === 'Escape') setSelectedProject(null); };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
   }, [selectedProject]);
 
   return (
-    <section id="project" style={{ padding: '100px 0', position: 'relative', zIndex: 2 }}>
+    <section id="project" className="page-section" style={{ zIndex: 2 }}>
       <style dangerouslySetInnerHTML={{ __html: projectCSS }} />
-      
-      <div className="container" style={{ maxWidth: '1140px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'right', marginBottom: '60px' }}>
-          <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: 0 }}>
-            <GradientText>Latest Project</GradientText>
-          </h2>
-          <p style={{ color: '#a0a0a0', marginTop: '10px', fontSize: '1.1rem' }}>
-            A curated selection showcasing my expertise and the achieved results.
-          </p>
-        </div>
+
+      <div className="container">
+        <SectionHeader
+          eyebrow="Portfolio"
+          icon="fa-solid fa-layer-group"
+          title="Latest Project"
+          subtitle="A curated selection showcasing my expertise and the achieved results."
+        />
 
         <div className="row g-5">
           {projectsData.map(proj => (
             <div className="col-lg-6 col-md-12" key={proj.id}>
-              <div 
-                className="project-card" 
-                onClick={() => setSelectedProject(proj)}
-                style={{ cursor: 'pointer' }}
-              >
-                <div className="img-wrapper" style={{ background: proj.bgGradient }}>
-                  <img src={proj.image} alt={proj.title} className="project-img" />
-                </div>
-                
-                <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <div>
-                    <h3 style={{ fontSize: '1.8rem', color: '#f0f0f0', fontWeight: 700, margin: '0 0 8px 0', letterSpacing: '-0.02em' }}>
-                      {proj.title}
-                    </h3>
-                    <span style={{ color: '#a0a0a0', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 500 }}>
-                      {proj.category}
-                    </span>
-                  </div>
-                  <div style={{ padding: '6px 16px', borderRadius: '999px', border: '1px solid rgba(255,255,255,0.1)', color: '#a0a0a0', fontSize: '0.85rem' }}>
-                    {proj.year}
-                  </div>
-                </div>
-              </div>
+              <ProjectCard proj={proj} onOpen={setSelectedProject} />
             </div>
           ))}
         </div>
@@ -275,8 +254,9 @@ export default function ProjectSection() {
 
       <AnimatePresence>
         {selectedProject && (
-          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '100px 20px 40px 20px' }}>
-            
+          <div role="dialog" aria-modal="true" aria-label={selectedProject.title}
+            style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '90px 16px 32px' }}>
+
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -293,7 +273,7 @@ export default function ProjectSection() {
               className="custom-scrollbar"
               style={{
                 position: 'relative',
-                background: '#0a0612', 
+                background: '#0a0612',
                 border: '1px solid rgba(176,110,243,0.3)',
                 borderRadius: '24px',
                 width: '100%',
@@ -306,47 +286,44 @@ export default function ProjectSection() {
               }}
             >
               <button
+                type="button"
+                aria-label="Tutup"
                 onClick={() => setSelectedProject(null)}
-                style={{ 
-                  position: 'absolute', top: '24px', right: '24px', width: '44px', height: '44px', 
-                  borderRadius: '50%', background: 'rgba(0,0,0,0.4)', border: '1px solid rgba(255,255,255,0.2)', 
-                  color: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center', 
+                style={{
+                  position: 'absolute', top: '20px', right: '20px', width: '44px', height: '44px',
+                  borderRadius: '50%', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)',
+                  color: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center',
                   cursor: 'pointer', zIndex: 10, transition: 'all 0.2s', backdropFilter: 'blur(4px)'
                 }}
-                onMouseEnter={(e) => { e.target.style.background = 'rgba(255,255,255,0.2)'; e.target.style.transform = 'scale(1.05)' }}
-                onMouseLeave={(e) => { e.target.style.background = 'rgba(0,0,0,0.4)'; e.target.style.transform = 'scale(1)' }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; e.currentTarget.style.transform = 'scale(1.05)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.5)'; e.currentTarget.style.transform = 'scale(1)' }}
               >
                 <i className="fa-solid fa-xmark" style={{ pointerEvents: 'none', fontSize: '1.2rem' }}></i>
               </button>
 
               {/* ── AREA GAMBAR DENGAN GRADIENT FADE ── */}
-              <div style={{ 
+              <div style={{
                 position: 'relative',
-                width: '100%', 
+                width: '100%',
                 flexShrink: 0, // KUNCI UTAMA: Memaksa container ini tidak disusutkan oleh Flexbox modal!
                 background: selectedProject.bgGradient,
-                borderTopLeftRadius: '24px', 
+                borderTopLeftRadius: '24px',
                 borderTopRightRadius: '24px',
                 overflow: 'hidden'
               }}>
-                <img 
-                  src={selectedProject.image} 
-                  alt={selectedProject.title} 
-                  style={{ 
-                    width: '100%', 
-                    height: 'auto', // Gambar merentang penuh sesuai aslinya ke bawah
-                    display: 'block',
-                    zIndex: 1
-                  }} 
+                <img
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
                 />
-                
-                {/* Efek Gradien Mudar Menyatu Hitam dikembalikan agar desain tetap smooth */}
+
+                {/* Efek gradien mudar menyatu ke hitam */}
                 <div style={{
                   position: 'absolute',
-                  bottom: 0, 
+                  bottom: 0,
                   left: 0,
                   right: 0,
-                  height: '250px', 
+                  height: '40%',
                   background: 'linear-gradient(to bottom, rgba(10,6,18,0) 0%, #0a0612 100%)',
                   zIndex: 2,
                   pointerEvents: 'none'
@@ -354,22 +331,19 @@ export default function ProjectSection() {
               </div>
 
               {/* ── AREA KONTEN ── */}
-              {/* Efek melayang (overlap) dikembalikan seperti yang kamu suka */}
-              <div style={{ padding: '0 50px 40px 50px', position: 'relative', zIndex: 3, marginTop: '-45px' }}>
-                
-                <div style={{ 
-                  display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px', 
-                  borderRadius: '999px', border: '1px solid rgba(176,110,243,0.5)', 
-                  background: 'rgba(176,110,243,0.1)', color: '#d4a8ff', fontSize: '0.85rem', 
-                  fontWeight: 600, marginBottom: '20px' 
+              <div className="modal-content-area" style={{ position: 'relative', zIndex: 3, marginTop: '-45px' }}>
+
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 14px',
+                  borderRadius: '999px', border: '1px solid rgba(176,110,243,0.5)',
+                  background: 'rgba(176,110,243,0.1)', color: '#d4a8ff', fontSize: '0.85rem',
+                  fontWeight: 600, marginBottom: '20px'
                 }}>
                   <i className="fa-solid fa-tag" style={{ fontSize: '0.75rem' }}></i> {selectedProject.category}
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px' }}>
-                  <h2 style={{ fontSize: '3rem', fontWeight: 800, color: '#f0f0f0', margin: 0, letterSpacing: '-0.03em' }}>
-                    {selectedProject.title}
-                  </h2>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', marginBottom: '36px' }}>
+                  <h2 className="modal-title">{selectedProject.title}</h2>
                   <div style={{ padding: '8px 20px', borderRadius: '999px', border: '1px solid rgba(255,255,255,0.15)', color: '#a0a0a0', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <i className="fa-regular fa-calendar"></i> {selectedProject.year}
                   </div>
@@ -381,8 +355,8 @@ export default function ProjectSection() {
                     TECHNOLOGIES USED
                   </h4>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                    {selectedProject.technologies.map((tech, idx) => (
-                      <span key={idx} style={{ padding: '8px 18px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#d4a8ff', fontSize: '0.9rem', fontWeight: 500 }}>
+                    {selectedProject.technologies.map(tech => (
+                      <span key={tech} style={{ padding: '8px 18px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#d4a8ff', fontSize: '0.9rem', fontWeight: 500 }}>
                         {tech}
                       </span>
                     ))}
@@ -394,23 +368,23 @@ export default function ProjectSection() {
                     <span style={{ display: 'inline-block', width: '4px', height: '16px', background: '#b06ef3', borderRadius: '2px' }}></span>
                     ABOUT PROJECT
                   </h4>
-                  <p style={{ color: '#a0a0a0', lineHeight: 1.8, fontSize: '1.05rem', margin: 0, whiteSpace: 'pre-line' }}>
+                  <p style={{ color: '#a0a0a0', lineHeight: 1.8, fontSize: '1.02rem', margin: 0, whiteSpace: 'pre-line' }}>
                     {selectedProject.description}
                   </p>
                 </div>
 
                 {/* Tombol otomatis hilang jika tidak ada link */}
                 {selectedProject.repoLink && (
-                  <div style={{ 
-                    borderTop: '1px solid rgba(176,110,243,0.1)', 
-                    paddingTop: '30px', 
+                  <div style={{
+                    borderTop: '1px solid rgba(176,110,243,0.1)',
+                    paddingTop: '30px',
                     marginTop: '10px',
                     display: 'flex',
-                    justifyContent: 'flex-start' 
+                    justifyContent: 'flex-start'
                   }}>
-                      <GlowButton href={selectedProject.repoLink}>
-                          <i className="fa-brands fa-github" style={{ fontSize: '1.1rem', color: '#d4a8ff' }}></i> View Repository
-                      </GlowButton>
+                    <GlowButton href={selectedProject.repoLink} external>
+                      <i className="fa-brands fa-github" style={{ fontSize: '1.1rem', color: '#d4a8ff' }}></i> View Repository
+                    </GlowButton>
                   </div>
                 )}
 

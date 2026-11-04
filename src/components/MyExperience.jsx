@@ -1,44 +1,5 @@
-import { useState, useRef } from 'react';
-import { motion, useMotionValue, useAnimationFrame, useTransform } from 'motion/react';
-
-// ── GradientText inline ──
-function GradientText({ children, colors = ['#9b59b6', '#d4a8ff', '#b06ef3', '#ffffff', '#9b59b6'], animationSpeed = 6 }) {
-  const progress = useMotionValue(0)
-  const elapsedRef = useRef(0)
-  const lastTimeRef = useRef(null)
-  const animationDuration = animationSpeed * 1000
-
-  useAnimationFrame(time => {
-    if (lastTimeRef.current === null) { lastTimeRef.current = time; return }
-    elapsedRef.current += time - lastTimeRef.current
-    lastTimeRef.current = time
-    const fullCycle = animationDuration * 2
-    const cycleTime = elapsedRef.current % fullCycle
-    progress.set(cycleTime < animationDuration
-      ? (cycleTime / animationDuration) * 100
-      : 100 - ((cycleTime - animationDuration) / animationDuration) * 100
-    )
-  })
-
-  const backgroundPosition = useTransform(progress, p => `${p}% 50%`)
-  const gradientColors = [...colors, colors[0]].join(', ')
-  const gradientStyle = {
-    backgroundImage: `linear-gradient(to right, ${gradientColors})`,
-    backgroundSize: '300% 100%',
-    backgroundRepeat: 'repeat',
-    backgroundClip: 'text',
-    WebkitBackgroundClip: 'text',
-    color: 'transparent',
-    display: 'inline-block',
-    fontWeight: 'inherit',
-  }
-
-  return (
-    <motion.span style={{ ...gradientStyle, backgroundPosition }}>
-      {children}
-    </motion.span>
-  )
-}
+import { useRef } from 'react';
+import SectionHeader from './SectionHeader';
 
 // =====================================================================
 // 📌 CARA MENAMBAH PENGALAMAN (EXPERIENCE) BARU:
@@ -50,19 +11,8 @@ function GradientText({ children, colors = ['#9b59b6', '#d4a8ff', '#b06ef3', '#f
 // =====================================================================
 
 const experiencesData = [
-    {
-    id: 1,
-    period: "Apr 2025 - Present",
-    role: "Creative and Design Division",
-    company: "Himpunan Mahasiswa Teknik Informatika",
-    initials: "HM", // Inisial untuk logo kecil
-    responsibilities: [
-      "Collaborated with BNEC x HIMTI to design official event merchandise (tumbler) for the \"From Campus To Career: A Journey into the IT World\" seminar.",
-      "Designed and executed key visual assets for the SESVENT 2025 event, including the official social media twibbon and event certificates."
-    ]
-  },
   {
-    id: 2,
+    id: 1,
     period: "Feb 2026 - Present",
     role: "Full Stack Developer",
     company: "Internship at Otto Pharmaceutical Industries",
@@ -71,6 +21,17 @@ const experiencesData = [
       "Acted as the sole developer for two key internal web applications, independently handling the entire software development lifecycle without team support.",
       "Successfully migrated an existing legacy system from the Yii framework to Laravel 5.4, while simultaneously developing and integrating new custom features based on direct user requests.",
       "Engineered a custom Digital Signature application from scratch, taking full responsibility for the database architecture, backend logic, and frontend interface."
+    ]
+  },
+  {
+    id: 2,
+    period: "Apr 2025 - Present",
+    role: "Creative and Design Division",
+    company: "Himpunan Mahasiswa Teknik Informatika",
+    initials: "HM", // Inisial untuk logo kecil
+    responsibilities: [
+      "Collaborated with BNEC x HIMTI to design official event merchandise (tumbler) for the \"From Campus To Career: A Journey into the IT World\" seminar.",
+      "Designed and executed key visual assets for the SESVENT 2025 event, including the official social media twibbon and event certificates."
     ]
   }
 ];
@@ -333,26 +294,17 @@ const experienceCSS = `
 
 export default function MyExperience() {
   return (
-    <section id="experience" style={{ padding: '100px 0', position: 'relative', zIndex: 2 }}>
+    <section id="experience" className="page-section" style={{ zIndex: 2 }}>
       <style dangerouslySetInnerHTML={{ __html: experienceCSS }} />
-      
-      <div className="container" style={{ maxWidth: '1140px', margin: '0 auto' }}>
-        
-        {/* Header Section (JUDUL DI TENGAH) */}
-        <div style={{ textAlign: 'center', marginBottom: '80px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '10px' }}>
-            <i className="fa-solid fa-star" style={{ color: '#b06ef3', fontSize: '0.8rem' }}></i>
-            <span style={{ color: '#b06ef3', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 600 }}>
-              Career Path
-            </span>
-          </div>
-          <h2 style={{ fontSize: '3.5rem', fontWeight: 800, margin: 0 }}>
-            <GradientText>My Experience</GradientText>
-          </h2>
-          <p style={{ color: '#a0a0a0', marginTop: '15px', fontSize: '1.1rem', maxWidth: '600px', margin: '15px auto 0' }}>
-            A timeline of my professional journey, highlighting key roles and contributions in the tech industry.
-          </p>
-        </div>
+
+      <div className="container">
+
+        <SectionHeader
+          eyebrow="Career Path"
+          icon="fa-solid fa-briefcase"
+          title="My Experience"
+          subtitle="A timeline of my professional journey, highlighting key roles and contributions in the tech industry."
+        />
 
         {/* Wadah Timeline Vertikal */}
         <div className="timeline-wrapper">
