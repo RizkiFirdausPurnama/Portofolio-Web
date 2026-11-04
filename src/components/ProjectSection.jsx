@@ -4,8 +4,29 @@ import SectionHeader from './SectionHeader';
 import GlowButton from './GlowButton';
 import { useReveal } from '../hooks/useReveal';
 
-// Data Project 
+// Data Project (urutan di sini = urutan tampil, terbaru di atas)
+// `image` boleh dikosongkan dulu; kartu akan menampilkan placeholder bergaya sampai screenshot tersedia.
 const projectsData = [
+  {
+    id: 6,
+    title: "AI Clipper Automation",
+    category: "AI AUTOMATION",
+    year: "2026 - Present",
+    image: "public/Foto/shot clipper.png",
+    bgGradient: "linear-gradient(135deg, #2a1d14 0%, #120c1c 100%)",
+    technologies: ["Python", "FastAPI", "React", "Whisper", "Gemini", "FFmpeg", "Supabase", "Tailwind CSS"],
+    description: "AI Clipper Automation is an end-to-end video clipper: paste a YouTube link or upload a long video, and it produces several ready-to-post vertical (9:16) short clips without manual editing. Built in a team of 2 for paid clipping campaigns, it extends the open-source AutoClip project (MIT) and adapts it for Indonesian gaming and streaming content.\n\n✨ Key Features:\n• Automated Pipeline: yt-dlp download → local Whisper transcription with word timestamps → LLM highlight selection → FFmpeg render.\n• AI Highlight Detection: Gemini reads only the transcript and returns ranked clips with title, hook, caption, hashtags and a score, with switchable fallback providers.\n• Clip Stitching: One clip can combine 2–3 non-consecutive segments into a single coherent short.\n• Smart Reframing: Speaker-tracked 9:16 reframing with MediaPipe, plus a facecam preset editor.\n• CapCut-Style Subtitles: Animated word-highlight captions with draggable position and size per clip.\n• Background Music & Watermark: Royalty-free music with audio ducking, and text/image watermarks applied on every render.\n• Review Workflow: Web dashboard to approve or reject clips with keyboard shortcuts, plus live job progress with time estimates.\n• Supabase Integration: Postgres via SQLAlchemy + Alembic, Auth login, private Storage for kept clips, and an audit log of every action and LLM call."
+  },
+  {
+    id: 5,
+    title: "eBR System",
+    category: "FULL-STACK WEB",
+    year: "2026 - Present",
+    image: "public/Foto/eBR-banner@2x.png",
+    bgGradient: "linear-gradient(135deg, #1f1a33 0%, #120c1c 100%)",
+    technologies: ["Laravel 12", "React 18", "Inertia.js", "PostgreSQL", "Tailwind CSS", "TipTap"],
+    description: "eBR (Electronic Batch Record) is a pharmaceutical manufacturing web application that replaces paper and Excel-based batch records with a fully digital, auditable workflow. I built it as a monolith (Laravel + React via Inertia.js) covering the journey from designing a product's Master Copy to executing, reviewing and releasing a production batch, with CPOB and 21 CFR Part 11 principles in mind.\n\n✨ Key Features:\n• Master Copy Builder: Ribbon-based visual editor to compose CPB/CKB documents, sections, tables, formulas and specification limits, plus a reusable Library Template.\n• Approval Workflow: Master Copies go through review and approval before they are Ready to Use, with full revision history.\n• PIC Assignment: Assign departments and verifiers (Production, Logistics, QA) per section, with prerequisite steps and re-assignment.\n• Batch Execution: Operators fill sections from My Tasks and Submit & Sign electronically; each entry is sealed with a digital fingerprint.\n• Automatic OOS Detection: Out-of-specification values instantly raise QA Alerts, with Hold/Resume and Deviation handling.\n• QA Review & Release: Controlled corrections, batch review and final release decision by QA.\n• Reporting & Audit Trail: Printable batch record reports, batch monitoring with trend charts, and a complete who-did-what-when audit trail.\n• Role-Based Access: Ten roles (Admin, Author, Reviewer, Approver, Operator, Supervisor, QC, QA, Auditor, etc.) enforced on the backend."
+  },
   {
     id: 1,
     title: "Digital Sign System",
@@ -83,6 +104,38 @@ const projectCSS = `
     border-radius: 12px 12px 0 0;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  }
+  .project-img-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    padding: 24px;
+    background:
+      linear-gradient(rgba(176,110,243,0.07) 1px, transparent 1px) 0 0 / 28px 28px,
+      linear-gradient(90deg, rgba(176,110,243,0.07) 1px, transparent 1px) 0 0 / 28px 28px,
+      radial-gradient(circle at 50% 40%, rgba(176,110,243,0.22), rgba(15,10,25,0.9) 70%);
+    border: 1px solid rgba(176,110,243,0.2);
+    border-bottom: none;
+  }
+  .project-img-placeholder i {
+    font-size: 1.6rem;
+    color: #d4a8ff;
+    opacity: 0.8;
+  }
+  .project-img-placeholder .placeholder-title {
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-weight: 800;
+    color: #f0f0f0;
+    letter-spacing: -0.02em;
+  }
+  .project-img-placeholder .placeholder-sub {
+    font-size: 0.8rem;
+    color: #a0a0a0;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
   }
   .project-card .view-hint {
     position: absolute;
@@ -189,13 +242,26 @@ const projectCSS = `
   }
 `;
 
+// Pengganti screenshot untuk project yang belum punya gambar
+function ImagePlaceholder({ proj, style }) {
+  return (
+    <span className="project-img project-img-placeholder" style={style}>
+      <i className="fa-solid fa-code" />
+      <span className="placeholder-title">{proj.title}</span>
+      <span className="placeholder-sub">Preview coming soon</span>
+    </span>
+  );
+}
+
 function ProjectCard({ proj, onOpen }) {
   const ref = useReveal();
   return (
     <div ref={ref} className="reveal">
       <button type="button" className="project-card" onClick={() => onOpen(proj)} aria-label={`Lihat detail ${proj.title}`}>
         <span className="img-wrapper" style={{ background: proj.bgGradient }}>
-          <img src={proj.image} alt={proj.title} className="project-img" loading="lazy" />
+          {proj.image
+            ? <img src={proj.image} alt={proj.title} className="project-img" loading="lazy" />
+            : <ImagePlaceholder proj={proj} />}
           <span className="view-hint">View Details <i className="fa-solid fa-arrow-right" style={{ fontSize: '0.75rem' }} /></span>
         </span>
 
@@ -311,11 +377,15 @@ export default function ProjectSection() {
                 borderTopRightRadius: '24px',
                 overflow: 'hidden'
               }}>
-                <img
-                  src={selectedProject.image}
-                  alt={selectedProject.title}
-                  style={{ width: '100%', height: 'auto', display: 'block' }}
-                />
+                {selectedProject.image ? (
+                  <img
+                    src={selectedProject.image}
+                    alt={selectedProject.title}
+                    style={{ width: '100%', height: 'auto', display: 'block' }}
+                  />
+                ) : (
+                  <ImagePlaceholder proj={selectedProject} style={{ height: '300px', border: 'none' }} />
+                )}
 
                 {/* Efek gradien mudar menyatu ke hitam */}
                 <div style={{
